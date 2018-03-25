@@ -6,7 +6,8 @@ import numpy as np
 from itertools import chain
 from collections import Counter
 from sklearn.model_selection import StratifiedKFold, GroupKFold
-import xgboost as xgb
+#import xgboost as xgb
+from sklearn.svm import SVC
 from collections import Counter
 from CountFeatureGenerator import *
 from TfidfFeatureGenerator import *
@@ -21,9 +22,9 @@ from score import *
     test on remaining 20% (hold_out_ids.txt)
 '''
 '''
-original parameters
 params_xgb = {
 
+    # change max_depth
     'max_depth': 6,
     'colsample_bytree': 0.6,
     'subsample': 1.0,
@@ -35,20 +36,7 @@ params_xgb = {
     'num_class': 4
 }
 '''
-params_xgb = {
-
-    # change max_depth
-    'max_depth': 8,
-    'colsample_bytree': 0.6,
-    'subsample': 1.0,
-    'eta': 0.1,
-    'silent': 1,
-    #'objective': 'multi:softmax',
-    'objective': 'multi:softprob',
-    'eval_metric':'mlogloss',
-    'num_class': 4
-}
-
+sv = SVC(kernel='poly', C=1.0, decision_function_shape='ovo', random_state=0)
 num_round = 1000
 
 def build_data():
@@ -69,7 +57,7 @@ def build_data():
                   TfidfFeatureGenerator(),
                   SvdFeatureGenerator(),
                   Word2VecFeatureGenerator(),
-                  #SentimentFeatureGenerator()
+                  SentimentFeatureGenerator()
                   #AlignmentFeatureGenerator()
                  ]
 
@@ -105,7 +93,7 @@ def build_test_data():
                   TfidfFeatureGenerator(),
                   SvdFeatureGenerator(),
                   Word2VecFeatureGenerator(),
-                  #SentimentFeatureGenerator()
+                  SentimentFeatureGenerator()
                  ]
 
     features = [f for g in generators for f in g.read("test")]
@@ -173,7 +161,7 @@ def train():
     # perfect score on training set
     print 'perfect_score: ', perfect_score(data_y)
     print Counter(data_y)
-
+    ''''
     dtrain = xgb.DMatrix(data_x, label=data_y, weight=w)
     dtest = xgb.DMatrix(test_x)
     watchlist = [(dtrain, 'train')]
@@ -183,7 +171,10 @@ def train():
                     watchlist,
                     feval=eval_metric,
                     verbose_eval=10)
-
+                    '''
+    #sv = SVC(kernel='poly', C=1.0, decision_function_shape='ovo', random_state=0)
+    sv.fit(data_x, data_y)
+    pred_prob_y = sv.predict(test_x).reshape(test_y.shape[0], 4)
     #pred_y = bst.predict(dtest) # output: label, not probabilities
     #pred_y = bst.predict(dtrain) # output: label, not probabilities
     pred_prob_y = bst.predict(dtest).reshape(test_x.shape[0], 4) # predicted probabilities
@@ -273,6 +264,7 @@ def cv():
         print 'perfect_score: ', perfect_score(y_valid)
         print Counter(y_valid)
         #break
+        '''
         dtrain = xgb.DMatrix(x_train, label=y_train, weight=w[trainInd])
         dvalid = xgb.DMatrix(x_valid, label=y_valid, weight=w[validInd])
         watchlist = [(dtrain, 'train'), (dvalid, 'eval')]
@@ -284,9 +276,12 @@ def cv():
                         #feval = eval_metric,
                         #maximize = True,
                         early_stopping_rounds=80)
-
+        '''
+        #sv = SVC( kernel='poly', C=1.0, decision_function_shape='ovo', random_state=0)
+        sv.fit(x_train, y_train)
+        pred_y = sv.predict(x_valid).reshape(test_y.shape[0], 4)
         #pred_y = bst.predict(dvalid, ntree_limit=bst.best_ntree_limit)
-        pred_y = bst.predict(dvalid, ntree_limit=bst.best_ntree_limit).reshape(y_valid.shape[0], 4)
+        #pred_y = bst.predict(dvalid, ntree_limit=bst.best_ntree_limit).reshape(y_valid.shape[0], 4)
         print 'predicted probabilities: '
         print pred_y
         pred_y = np.argmax(pred_y, axis=1)
@@ -345,6 +340,7 @@ def cv():
 
     # use the same parameters to train with full cv data, test on hold-out data
     print 'test on holdout set'
+    '''
     dtrain = xgb.DMatrix(cv_x, label=cv_y, weight=w)
     dtest = xgb.DMatrix(test_x, label=test_y)
     watchlist = [(dtrain, 'train')]
@@ -358,6 +354,10 @@ def cv():
 
     pred_prob_holdout_y = clf.predict(dtest).reshape(test_y.shape[0], 4) # probabilities
     pred_holdout_y = np.argmax(pred_prob_holdout_y, axis=1)
+    '''
+    #sv = SVM( kernel='poly', C=1.0, decision_function_shape='ovo', random_state=0)
+    #sv.fit(cv_x, cv_y)
+    pred_prob_holdout_y = sv.predict(test_x).reshape(test_y.shape[0], 4)
     print 'pred_holdout_y.shape:'
     print pred_holdout_y.shape
     print 'test_y.shape:'

@@ -7,12 +7,12 @@ from helpers import *
 
 
 class TfidfFeatureGenerator(FeatureGenerator):
-    
-    
+
+
     def __init__(self, name='tfidfFeatureGenerator'):
         super(TfidfFeatureGenerator, self).__init__(name)
 
-    
+
     def process(self, df):
 
         # 1). create strings based on ' '.join(Headline_unigram + articleBody_unigram) [ already stemmed ]
@@ -35,14 +35,14 @@ class TfidfFeatureGenerator(FeatureGenerator):
         xHeadlineTfidf = vecH.fit_transform(df['Headline_unigram'].map(lambda x: ' '.join(x))) # use ' '.join(Headline_unigram) instead of Headline since the former is already stemmed
         print 'xHeadlineTfidf.shape:'
         print xHeadlineTfidf.shape
-        
+
         # save train and test into separate files
         xHeadlineTfidfTrain = xHeadlineTfidf[:n_train, :]
         outfilename_htfidf_train = "train.headline.tfidf.pkl"
         with open(outfilename_htfidf_train, "wb") as outfile:
             cPickle.dump(xHeadlineTfidfTrain, outfile, -1)
         print 'headline tfidf features of training set saved in %s' % outfilename_htfidf_train
-        
+
         if n_test > 0:
             # test set is available
             xHeadlineTfidfTest = xHeadlineTfidf[n_train:, :]
@@ -56,14 +56,14 @@ class TfidfFeatureGenerator(FeatureGenerator):
         xBodyTfidf = vecB.fit_transform(df['articleBody_unigram'].map(lambda x: ' '.join(x)))
         print 'xBodyTfidf.shape:'
         print xBodyTfidf.shape
-        
+
         # save train and test into separate files
         xBodyTfidfTrain = xBodyTfidf[:n_train, :]
         outfilename_btfidf_train = "train.body.tfidf.pkl"
         with open(outfilename_btfidf_train, "wb") as outfile:
             cPickle.dump(xBodyTfidfTrain, outfile, -1)
         print 'body tfidf features of training set saved in %s' % outfilename_btfidf_train
-        
+
         if n_test > 0:
             # test set is availble
             xBodyTfidfTest = xBodyTfidf[n_train:, :]
@@ -71,7 +71,7 @@ class TfidfFeatureGenerator(FeatureGenerator):
             with open(outfilename_btfidf_test, "wb") as outfile:
                 cPickle.dump(xBodyTfidfTest, outfile, -1)
             print 'body tfidf features of test set saved in %s' % outfilename_btfidf_test
-               
+
 
         # 4). compute cosine similarity between headline tfidf features and body tfidf features
         simTfidf = np.asarray(map(cosine_sim, xHeadlineTfidf, xBodyTfidf))[:, np.newaxis]
@@ -82,7 +82,7 @@ class TfidfFeatureGenerator(FeatureGenerator):
         with open(outfilename_simtfidf_train, "wb") as outfile:
             cPickle.dump(simTfidfTrain, outfile, -1)
         print 'tfidf sim. features of training set saved in %s' % outfilename_simtfidf_train
-        
+
         if n_test > 0:
             # test set is available
             simTfidfTest = simTfidf[n_train:]
@@ -118,17 +118,17 @@ class TfidfFeatureGenerator(FeatureGenerator):
         print simTfidf.shape
         #print type(simTfidf)
 
-        return [xHeadlineTfidf, xBodyTfidf, simTfidf.reshape(-1, 1)]
-        #return [simTfidf.reshape(-1, 1)]
+        #return [xHeadlineTfidf, xBodyTfidf, simTfidf.reshape(-1, 1)]
+        return [simTfidf.reshape(-1, 1)]
 
  #   Copyright 2017 Cisco Systems, Inc.
- #  
+ #
  #   Licensed under the Apache License, Version 2.0 (the "License");
  #   you may not use this file except in compliance with the License.
  #   You may obtain a copy of the License at
- #  
+ #
  #     http://www.apache.org/licenses/LICENSE-2.0
- #  
+ #
  #   Unless required by applicable law or agreed to in writing, software
  #   distributed under the License is distributed on an "AS IS" BASIS,
  #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

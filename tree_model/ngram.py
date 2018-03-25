@@ -22,7 +22,7 @@ def getUnigram(words):
     """
     assert type(words) == list
     return words
-    
+
 def getBigram(words, join_string, skip=0):
 	"""
 	   Input: a list of words, e.g., ['I', 'am', 'Denny']
@@ -43,7 +43,7 @@ def getBigram(words, join_string, skip=0):
 		lst = getUnigram(words)
 	#print 'lst returned'
         return lst
-    
+
 def getTrigram(words, join_string, skip=0):
 	"""
 	   Input: a list of words, e.g., ['I', 'am', 'Denny']
@@ -63,7 +63,7 @@ def getTrigram(words, join_string, skip=0):
 		# set it as bigram
 		lst = getBigram(words, join_string, skip)
 	return lst
-    
+
 def getFourgram(words, join_string):
     """
         Input: a list of words, e.g., ['I', 'am', 'Denny', 'boy']
@@ -98,7 +98,7 @@ def getBiterm(words, join_string):
         # set it as unigram
         lst = getUnigram(words)
     return lst
-    
+
 def getTriterm(words, join_string):
     """
         Input: a list of words, e.g., ['I', 'am', 'Denny']
@@ -120,13 +120,13 @@ def getTriterm(words, join_string):
     return lst
 
  #   Copyright 2017 Cisco Systems, Inc.
- #  
+ #
  #   Licensed under the Apache License, Version 2.0 (the "License");
  #   you may not use this file except in compliance with the License.
  #   You may obtain a copy of the License at
- #  
+ #
  #     http://www.apache.org/licenses/LICENSE-2.0
- #  
+ #
  #   Unless required by applicable law or agreed to in writing, software
  #   distributed under the License is distributed on an "AS IS" BASIS,
  #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

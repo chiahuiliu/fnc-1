@@ -26,7 +26,7 @@ params_xgb = {
 num_round = 1000
 
 def build_data():
-    
+
     # create target variable
     body = pd.read_csv("train_bodies.csv")
     stances = pd.read_csv("train_stances.csv")
@@ -34,9 +34,9 @@ def build_data():
     targets = ['agree', 'disagree', 'discuss', 'unrelated']
     targets_dict = dict(zip(targets, range(len(targets))))
     data['target'] = map(lambda x: targets_dict[x], data['Stance'])
-    
+
     data_y = data['target'].values
-    
+
     # read features
     generators = [
                   CountFeatureGenerator(),
@@ -58,7 +58,7 @@ def build_data():
     return data_x, data_y
 
 def fscore(pred_y, truth_y):
-    
+
     # targets = ['agree', 'disagree', 'discuss', 'unrelated']
     # y = [0, 1, 2, 3]
     score = 0
@@ -70,11 +70,11 @@ def fscore(pred_y, truth_y):
         else:
             if pred_y[i] != 3: score += 0.25
             if truth_y[i] == pred_y[i]: score += 0.75
-    
+
     return score
 
 def perfect_score(truth_y):
-    
+
     score = 0
     for i in range(truth_y.shape[0]):
         if truth_y[i] == 3: score += 0.25
@@ -84,15 +84,15 @@ def perfect_score(truth_y):
     return score
 
 def cv():
-    
+
     data_x, data_y = build_data()
-    
+
     random_seed = 2017
     #skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=random_seed)
     #with open('skf.pkl', 'wb') as outfile:
     #    cPickle.dump(skf, outfile, -1)
     #    print 'skf saved'
-    
+
     scores = []
     best_iters = [0]*5
     pscores = []
@@ -105,14 +105,14 @@ def cv():
             y_train = data_y[trainInd]
             x_valid = data_x[validInd]
             y_valid = data_y[validInd]
-            
+
             print 'perfect_score: ', perfect_score(y_valid)
             print Counter(y_valid)
             #break
             dtrain = xgb.DMatrix(x_train, label=y_train)
             dvalid = xgb.DMatrix(x_valid, label=y_valid)
             watchlist = [(dtrain, 'train'), (dvalid, 'eval')]
-            bst = xgb.train(params_xgb, 
+            bst = xgb.train(params_xgb,
                             dtrain,
                             num_round,
                             watchlist,
@@ -149,13 +149,13 @@ if __name__ == '__main__':
     cv()
 
  #   Copyright 2017 Cisco Systems, Inc.
- #  
+ #
  #   Licensed under the Apache License, Version 2.0 (the "License");
  #   you may not use this file except in compliance with the License.
  #   You may obtain a copy of the License at
- #  
+ #
  #     http://www.apache.org/licenses/LICENSE-2.0
- #  
+ #
  #   Unless required by applicable law or agreed to in writing, software
  #   distributed under the License is distributed on an "AS IS" BASIS,
  #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

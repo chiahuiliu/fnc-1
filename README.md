@@ -1,40 +1,22 @@
-<p align="center">
-<img src="https://github.com/Cisco-Talos/fnc-1/blob/master/images/solat-in-the-swen.gif" alt="TALOS IN THE NEWS"/>
-</p>
+# Fake news challenge - the winning solution
+This is the project for ut claim checking group to run the winning solution for fake new challenge.<br>
+For the original winning solution, check the GitHub link [here](https://github.com/Cisco-Talos/fnc-1).<br>
+For the fake news challenge website, please check [here](http://www.fakenewschallenge.org/).<br>
 
-# Fake News Challenge - Team SOLAT IN THE SWEN
+## Relevant Readings
+- The State of Automated Factchecking Easy read.
+- Emergent: a novel data-set for stance classification: dataset in the fake news challenge, has stance labels and ‘truth’ labels. (300 claims,  and 2,595 associated article headlines; 47.7% for, 15.2% against and 37.1% observing) http://www.emergent.info/ The “headline” is the real headline. Some stances are subjective, could be a problem when crowdsource that.
+- An Interpretable Joint Graphical Model for Fact-Checking from Crowds Our paper.
+- Detect Rumors in Microblog Posts Using Propagation Structure via Kernel Learning
+- ACL 2017 short paper: “Liar, Liar Pants on Fire”: A New Benchmark Dataset for Fake News Detection. William Yang Wang DATA
+- Another ACL 2017 short paper: Separating Facts from Fiction: Linguistic Models to Classify Suspicious and Trusted News Posts on Twitter. Kyle Shaffer, Jin Yea Jang, Nathan Hodas and Svitlana Volkova
+Fact Checking: Task definition and dataset construction From PolitiFact, has ‘verdict’ labels and ‘suitable’ labels (can it be objectively checked)
+- Where the Truth Lies: Explaining the Credibility of Emerging Claims on the Web and Social Media From Snopes and Wikipedia: DATA WWW’17
+- Leveraging the crowd to detect and reduce the spread of fake news and misinformation
+- Detecting Fake News in Social Networks via Crowdsourcing
+- Truth of varying shades: Analyzing language in fake news and political fact-checking
+- Some Like it Hoax: Automated Fake News Detection in Social Networks code
 
-**Team Members:**     [Yuxi Pan](https://www.linkedin.com/in/yuxipanucla) (yuxpan@cisco.com), Doug Sibley (dosibley@cisco.com), [Sean Baird](https://www.linkedin.com/in/seanrichardbaird/) (sebaird@cisco.com)
+## Contact
+For any installation issues, please contact Chiahui by email (chiahuiliu@utexas.edu)
 
-In the below directories, you can find code used by Team SOLAT IN THE SWEN to perform stance detection on a number of news headlines and article text. Our model is based on an weighted average between gradient-boosted decision trees and a deep convolutional neural network. 
-
-<p align="center">
-<img src="https://github.com/Cisco-Talos/fnc-1/blob/master/images/diagrams_light/final_prediction_light.png" alt="Our ensemble used a 50/50 weighting" width="50%"/>
-</p>
-
-Both `tree_model` and `deep_learning_model` contain their own `README.md` files detailing their model and providing instructions for running and installation. The model averaging process is described in `tree_model`.
-
-To learn more about how stance detection can help to detect fake news and disinformation campaigns, please visit our blog post on [blog.talosintelligence.com/2017/06/talos-fake-news-challenge.html](https://blog.talosintelligence.com/2017/06/talos-fake-news-challenge.html).
-
-For those interested, `tree_model/README.md` has detailed information on how to run our models to duplicate our results.
-
-See [Fake News Challenge Official Website](http://www.fakenewschallenge.org/) for more information.
-Thank you to Wendy, Melissa, and the entire Talos art team for the graphics, and to Joel and Luci for helping to open source our solution.  Big thank you to our leadership team, as well, for allowing us the time to work on this important problem.
-
-**Interested in learning how Talos forces the bad guys to innovate?**  Visit [talosintelligence.com](https://talosintelligence.com/about)
-
-<!--
-  Copyright 2017 Cisco Systems, Inc.
- 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
- 
-    http://www.apache.org/licenses/LICENSE-2.0
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->

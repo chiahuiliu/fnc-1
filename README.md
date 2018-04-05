@@ -3,6 +3,11 @@ This is the project for ut claim checking group to run the winning solution for 
 For the original winning solution, check the GitHub link [here](https://github.com/Cisco-Talos/fnc-1).<br>
 For the fake news challenge website, please check [here](http://www.fakenewschallenge.org/).<br>
 
+## Instructions
+1) Build a virtual environment by using Anaconda: [toturial](https://conda.io/docs/user-guide/tasks/manage-environments.html
+).
+2) Install all the dependencies
+
 ## Relevant Readings
 - The State of Automated Factchecking Easy read.
 - Emergent: a novel data-set for stance classification: dataset in the fake news challenge, has stance labels and ‘truth’ labels. (300 claims,  and 2,595 associated article headlines; 47.7% for, 15.2% against and 37.1% observing) http://www.emergent.info/ The “headline” is the real headline. Some stances are subjective, could be a problem when crowdsource that.
